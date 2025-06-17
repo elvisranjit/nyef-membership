@@ -1,4 +1,6 @@
-      - name: Deploy to Firebase Hosting (Manual CLI)
-        run: |
-          echo "$FIREBASE_SERVICE_ACCOUNT_NYEF_MEMBERSHIP" > service-account.json
-          firebase deploy --only hosting --project=nyef-membership --token "$(cat service-account.json | base64 -d | jq -r .private_key_id)"
+- name: Deploy using Firebase CLI
+  run: |
+    echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_NYEF_MEMBERSHIP }}" > service-account.json
+    echo "// .firebaserc must have correct projectId"
+    npm install -g firebase-tools
+    firebase deploy --project nyef-membership --token "$(cat service-account.json | base64 -d | jq -r .private_key_id)"
